@@ -5,6 +5,10 @@ namespace Faza13\Cart;
 
 
 
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Manager;
+
 class CartStoreManager extends Manager
 {
     /**
@@ -19,12 +23,12 @@ class CartStoreManager extends Manager
 
     /**
      * CartStoreManager constructor.
-     * @param $app
-     * @param string $storeName
+     * @param $container
+     * @param  string  $storeName
      */
-    public function __construct($app, $storeName)
+    public function __construct(Container $container, $storeName)
     {
-        parent::__construct($app);
+        parent::__construct($container);
         $this->currentStoreName = $storeName;
         $this->stores = new Collection();
     }
@@ -41,31 +45,31 @@ class CartStoreManager extends Manager
             $key = $this->currentStoreName;
         }
         if (!$this->stores->has($key)) {
-            $this->stores->put($key, $this->driver($this->app['config']["{$this->currentStoreName}.driver"]));
+            $this->stores->put($key, $this->driver($this->container['config']["{$this->currentStoreName}.driver"]));
         }
 
         return $this->stores->get($key);
     }
 
-    public function createDatabaseDriver()
-    {
-        return new DatabaseCartStore($this->app['config']['cart.store_drivers.database.model']);
-    }
-
-    public function createCookieDriver()
-    {
-        return new CookieCartStore();
-    }
+//    public function createDatabaseDriver()
+//    {
+//        return new DatabaseCartStore($this->app['config']['cart.store_drivers.database.model']);
+//    }
+//
+//    public function createCookieDriver()
+//    {
+//        return new CookieCartStore();
+//    }
 
     public function createRedisDriver()
     {
-        return new RedisCartStore($this->app['config']['cart.store_drivers.redis.conn']);
+        return new RedisCartStore($this->container['config']['cart.store_drivers.redis.conn']);
     }
 
     public function changeCurrentStore($name)
     {
         if ($name != $this->currentStoreName && !empty($this->currentStoreName)) {
-            $this->app['events']->dispatch(new CartStoreChanged($this->getStore($this->currentStoreName), $this->getStore($name)));
+            $this->container['events']->dispatch(new CartStoreChanged($this->getStore($this->currentStoreName), $this->getStore($name)));
             $this->currentStoreName = $name;
         }
 
@@ -79,7 +83,7 @@ class CartStoreManager extends Manager
      */
     public function getDefaultDriver()
     {
-        return $this->app['config']['cart.default_store.driver'];
+        return $this->container['config']['cart.default_store.driver'];
     }
 
     /**
@@ -90,6 +94,6 @@ class CartStoreManager extends Manager
      */
     public function setDefaultDriver($name)
     {
-        $this->app['config']['cart.default_store.driver'] = $name;
+        $this->container['config']['cart.default_store.driver'] = $name;
     }
 }

@@ -5,6 +5,8 @@ namespace Faza13\Cart;
 
 
 use Faza13\Cart\Contracts\CartItem;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class Item implements CartItem
 {
@@ -14,7 +16,12 @@ class Item implements CartItem
     private $uuid;
 
     /**
-     * @var \Viviniko\Currency\Money
+     * @var String
+     */
+    private $name;
+
+    /**
+     * @var Integer
      */
     private $price;
 
@@ -53,6 +60,7 @@ class Item implements CartItem
     public function __construct(CartItem $item, $quantity = 1)
     {
         $this->uuid = $item->getUuid();
+        $this->name = $item->getName();
         $this->price = $item->getPrice();
         $this->quantity = $quantity;
         $this->weight = $item->getWeight();
@@ -122,7 +130,12 @@ class Item implements CartItem
 
     public function getUuid()
     {
-        return $this->id;
+        return $this->uuid;
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -143,9 +156,9 @@ class Item implements CartItem
      */
     public function __get($key)
     {
+//        dd('get' . Str::studly($key));
         if (method_exists($this, $method = 'get' . Str::studly($key))) {
             $result = $this->$method();
-
             return $result;
         }
 
@@ -172,5 +185,10 @@ class Item implements CartItem
         }
 
         return $this->source;
+    }
+
+    public function newCollection(array $items = [])
+    {
+        return new Collection($items);
     }
 }

@@ -3,6 +3,7 @@
 namespace Faza13\Cart;
 
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class CartServiceProvider extends ServiceProvider
@@ -23,11 +24,11 @@ class CartServiceProvider extends ServiceProvider
     {
         // Publish config files
         $this->publishes([
-            __DIR__.'/../config/cart.php' => config_path('cart.php'),
+            __DIR__.'/../config/cart.php' => $this->app->basePath('config/cart.php'),
         ]);
 
         // Register commands
-        $this->commands('command.cart.table');
+//        $this->commands('command.cart.table');
     }
 
     /**
@@ -45,7 +46,7 @@ class CartServiceProvider extends ServiceProvider
 
         $this->app->alias(CartStoreManager::class, 'carts');
 
-        $this->registerCommands();
+//        $this->registerCommands();
 
         Event::listen(
             \Faza13\Cart\Events\CartStoreChanged::class,
@@ -58,12 +59,12 @@ class CartServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    private function registerCommands()
-    {
+//    private function registerCommands()
+//    {
 //        $this->app->singleton('command.cart.table', function ($app) {
 //            return new CartTableCommand($app['files'], $app['composer']);
 //        });
-    }
+//    }
 
     /**
      * Get the services provided by the provider.

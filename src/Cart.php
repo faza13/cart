@@ -10,6 +10,7 @@ use Faza13\Cart\Events\CartItemAdded;
 use Faza13\Cart\Events\CartItemEvent;
 use Faza13\Cart\Events\CartItemRemoved;
 use Faza13\Cart\Events\CartItemUpdated;
+use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 
 class Cart
@@ -102,8 +103,10 @@ class Cart
             }
             return true;
         });
+
         if ($removedItem)
             $this->event(new CartItemRemoved($this, $removedItem));
+
         return $this;
     }
 
@@ -126,7 +129,7 @@ class Cart
 
     public function save()
     {
-        $this->getCartStore()->setItems($this->items, Config::get('cart.ttl', 15 * 24 * 60));
+        $this->getCartStore()->setItems($this->items, config('cart.ttl', 15 * 24 * 60));
     }
 
     /**
@@ -233,7 +236,7 @@ class Cart
      */
     public function getStatistics()
     {
-        return collect($this->data)->merge(collect(['quantity', 'subtotal'])->mapWithKeys(function ($item) {
+        return app()->collect($this->data)->merge(app()->collect(['quantity', 'subtotal'])->mapWithKeys(function ($item) {
             return [$item => $this->$item];
         }));
     }

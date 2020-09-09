@@ -3,6 +3,7 @@
 namespace Faza13\Cart\Models;
 
 
+use Faza13\Cart\Item;
 use Illuminate\Database\Eloquent\Model;
 
 class Cart extends Model

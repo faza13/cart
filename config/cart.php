@@ -11,7 +11,7 @@ return [
             'model' => 'Faza13\Carts\Models\Cart'
         ],
         'redis' => [
-            'conn' => 'cart',
+            'conn' => 'default',
         ],
         'cookie' => [
         ],

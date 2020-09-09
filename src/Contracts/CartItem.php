@@ -10,7 +10,12 @@ interface CartItem
     public function getUuid();
 
     /**
-     * @return Money
+     * @return String
+     */
+    public function getName();
+
+    /**
+     * @return Integer
      */
     public function getPrice();
 

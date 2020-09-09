@@ -18,7 +18,7 @@ abstract class AbstractCartStore implements CartStore
     {
         if (empty($this->clientId))
         {
-            $this->clientId =  Auth::id();
+            $this->clientId =  auth()->id();
             $this->clientId = 'cart::' . $this->clientId;
         }
 
