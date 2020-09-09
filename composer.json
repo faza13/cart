@@ -1,0 +1,21 @@
+{
+    "name": "Faza13/cart",
+    "description": "package buat pengaturan cart",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Faza",
+            "email": "fazaa.13@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "dusterio/lumen-passport": "dev-master"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    }
+}
