@@ -1,5 +1,5 @@
 {
-    "name": "Faza13/cart",
+    "name": "faza13/cart",
     "description": "package buat pengaturan cart",
     "type": "library",
     "license": "MIT",
@@ -10,12 +10,12 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {
-        "dusterio/lumen-passport": "dev-master"
-    },
     "autoload": {
-        "classmap": [
-            "src/"
-        ]
+        "psr-4": {
+            "Faza13\\Cart\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.3.0"
     }
 }

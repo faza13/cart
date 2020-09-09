@@ -60,9 +60,9 @@ class CartServiceProvider extends ServiceProvider
      */
     private function registerCommands()
     {
-        $this->app->singleton('command.cart.table', function ($app) {
-            return new CartTableCommand($app['files'], $app['composer']);
-        });
+//        $this->app->singleton('command.cart.table', function ($app) {
+//            return new CartTableCommand($app['files'], $app['composer']);
+//        });
     }
 
     /**

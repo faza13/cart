@@ -6,7 +6,6 @@ namespace Faza13\Cart;
 
 use Faza13\Cart\Contracts\CartStore;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\UnauthorizedException;
 
 abstract class AbstractCartStore implements CartStore
 {

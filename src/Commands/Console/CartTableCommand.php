@@ -1,6 +1,6 @@
 <?php
 
-namespace Faza13\Cart\Console\Commands;
+namespace Faza13\Cart\Commands\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
