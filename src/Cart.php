@@ -140,7 +140,7 @@ class Cart
     public function getSubtotal()
     {
         return array_reduce($this->items, function ($result, $item) {
-            $result += $item->price;
+            $result += $item->getSubtotal();
             return $result;
         }, 0);
     }
@@ -166,7 +166,7 @@ class Cart
     public function getTotalWeight()
     {
         return array_reduce($this->items, function ($result, $item) {
-            $result += $item->weight;
+            $result += $item->getTotalWeight();
             return $result;
         }, 0);
     }

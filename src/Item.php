@@ -100,7 +100,8 @@ class Item implements CartItem
 
     public function getSubtotal()
     {
-        return $this->getPrice()->discount($this->getDiscount())->mul($this->getQuantity());
+        return $this->getPrice() * $this->getQuantity();
+//        return $this->getPrice()->discount($this->getDiscount())->mul($this->getQuantity());
     }
 
     public function getTotalWeight()
@@ -156,7 +157,6 @@ class Item implements CartItem
      */
     public function __get($key)
     {
-//        dd('get' . Str::studly($key));
         if (method_exists($this, $method = 'get' . Str::studly($key))) {
             $result = $this->$method();
             return $result;
