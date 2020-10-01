@@ -25,7 +25,7 @@ abstract class AbstractCartStore implements CartStore
             }
             else {
                 try{
-                    $this->clientId = decrypt(request()->bearerToken());
+                    $this->clientId = decrypt(request()->get('client_id'));
                 }
                 catch (\Exception $e) {}
             }
