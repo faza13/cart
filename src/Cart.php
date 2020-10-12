@@ -32,6 +32,11 @@ class Cart
      */
     protected $cartStore;
 
+    /**
+     * Cart constructor.
+     * @param  array  $items
+     * @param  array  $data
+     */
     private function __construct(array $items = [], array $data = [])
     {
         $this->items = $items;
@@ -52,6 +57,11 @@ class Cart
         throw new \InvalidArgumentException();
     }
 
+    /**
+     * @param  CartItem  $cartItem
+     * @param  int  $quantity
+     * @return $this
+     */
     public function add(CartItem $cartItem, $quantity = 1)
     {
         foreach ($this->items as $item) {
@@ -241,6 +251,10 @@ class Cart
         }));
     }
 
+    /**
+     * @param  CartStore  $cartStore
+     * @return $this
+     */
     public function setCartStore(CartStore $cartStore)
     {
         $this->cartStore = $cartStore;
@@ -254,8 +268,30 @@ class Cart
         return $this->cartStore;
     }
 
+    /**
+     * @return array
+     */
+    public function forgetCart()
+    {
+        $this->getCartStore()->forget();
+        return $this->getItems();
+    }
+
+    /**
+     * @param  CartItemEvent  $cartItemEvent
+     */
     private function event(CartItemEvent $cartItemEvent)
     {
         event($cartItemEvent);
+    }
+
+    /**
+     * @param $user
+     * @param  CartStore  $cartStore
+     */
+    public function changeClientId($user)
+    {
+        $items = $this->getItems();
+        $this->getCartStore()->changeClientId($user->id, $items, config('cart.ttl', 15 * 24 * 60));
     }
 }

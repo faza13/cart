@@ -33,4 +33,12 @@ interface CartStore
      */
     public function makeCart();
 
+    /**
+     * @param  string  $clientId
+     * @param  array  $items
+     * @param $ttl
+     * @return cart
+     */
+    public function changeClientId($clientId, array $items, $ttl);
+
 }

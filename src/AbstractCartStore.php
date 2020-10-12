@@ -12,6 +12,7 @@ abstract class AbstractCartStore implements CartStore
     private $clientId;
 
     /**
+     * @param  null  $id
      * @return string
      * @throws ClientIdException
      */

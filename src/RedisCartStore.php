@@ -16,9 +16,10 @@ class RedisCartStore extends AbstractCartStore
     }
 
     /**
-     * @param array $items
+     * @param  array  $items
      * @param $ttl
      * @return void
+     * @throws Exceptions\ClientIdException
      */
     public function setItems(array $items, $ttl)
     {
@@ -29,6 +30,7 @@ class RedisCartStore extends AbstractCartStore
 
     /**
      * @return array
+     * @throws Exceptions\ClientIdException
      */
     public function getItems()
     {
@@ -39,10 +41,24 @@ class RedisCartStore extends AbstractCartStore
 
     /**
      * @return void
+     * @throws Exceptions\ClientIdException
      */
     public function forget()
     {
-        $this->getDefaultRedisConnection()->forget($this->getClientId());
+        $this->getDefaultRedisConnection()->del($this->getClientId());
+    }
+
+    /**
+     * @param  string  $clientId
+     * @param  array  $items
+     * @param $ttl
+     */
+    public function changeClientId($clientId, array $items, $ttl)
+    {
+        $clientId = "cart::" . $clientId;
+        $this->getDefaultRedisConnection()->setex(
+            $clientId, $ttl, serialize($items)
+        );
     }
 
     private function getDefaultRedisConnection()
