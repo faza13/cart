@@ -3,6 +3,7 @@
 namespace Faza13\Cart;
 
 
+use Faza13\Cart\Commands\Console\CartTableCommand;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,7 +29,7 @@ class CartServiceProvider extends ServiceProvider
         ]);
 
         // Register commands
-//        $this->commands('command.cart.table');
+        $this->commands('command.cart.table');
     }
 
     /**
@@ -46,7 +47,7 @@ class CartServiceProvider extends ServiceProvider
 
         $this->app->alias(CartStoreManager::class, 'carts');
 
-//        $this->registerCommands();
+        $this->registerCommands();
 
         Event::listen(
             \Faza13\Cart\Events\CartStoreChanged::class,
@@ -59,12 +60,12 @@ class CartServiceProvider extends ServiceProvider
      *
      * @return void
      */
-//    private function registerCommands()
-//    {
-//        $this->app->singleton('command.cart.table', function ($app) {
-//            return new CartTableCommand($app['files'], $app['composer']);
-//        });
-//    }
+    private function registerCommands()
+    {
+        $this->app->singleton('command.cart.table', function ($app) {
+            return new CartTableCommand($app['files'], $app['composer']);
+        });
+    }
 
     /**
      * Get the services provided by the provider.

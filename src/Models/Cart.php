@@ -3,8 +3,8 @@
 namespace Faza13\Cart\Models;
 
 
-use Faza13\Cart\Item;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 
 class Cart extends Model
 {
@@ -24,7 +24,7 @@ class Cart extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table = Config::get('cart.cart_table');
+        $this->table = Config::get('cart.table');
     }
 
 }

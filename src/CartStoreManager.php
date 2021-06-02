@@ -51,11 +51,11 @@ class CartStoreManager extends Manager
         return $this->stores->get($key);
     }
 
-//    public function createDatabaseDriver()
-//    {
-//        return new DatabaseCartStore($this->app['config']['cart.store_drivers.database.model']);
-//    }
-//
+    public function createDatabaseDriver()
+    {
+        return new DatabaseCartStore($this->container['config']['cart.store_drivers.database.model']);
+    }
+
 //    public function createCookieDriver()
 //    {
 //        return new CookieCartStore();

@@ -8,7 +8,7 @@ return [
 
     'store_drivers' => [
         'database' => [
-            'model' => 'Faza13\Carts\Models\Cart'
+            'model' => '\Faza13\Cart\Models\Cart'
         ],
         'redis' => [
             'conn' => 'default',
@@ -22,7 +22,7 @@ return [
     ],
 
     'default_store' => [
-        'driver' => 'redis',
+        'driver' => 'database',
     ],
 
     'cart_table' => 'carts',

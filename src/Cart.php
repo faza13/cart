@@ -10,6 +10,7 @@ use Faza13\Cart\Events\CartItemAdded;
 use Faza13\Cart\Events\CartItemEvent;
 use Faza13\Cart\Events\CartItemRemoved;
 use Faza13\Cart\Events\CartItemUpdated;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 
@@ -64,6 +65,7 @@ class Cart
      */
     public function add(CartItem $cartItem, $quantity = 1)
     {
+
         foreach ($this->items as $item) {
             if ($item->equals($cartItem)) {
                 $item->plusQuantity($quantity);
@@ -126,10 +128,9 @@ class Cart
         foreach ($this->items as $item) {
             foreach ($cartItems as $cartItem) {
                 if ($item->plus($cartItem) === false) {
-                    $notFoundItems[] = $cartItem;
+                    $notFoundItems[] = (object) $cartItem;
                 }
             }
-
         }
 
         $this->items = array_merge($this->items, $notFoundItems);
