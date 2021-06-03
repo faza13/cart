@@ -5,6 +5,7 @@ namespace Faza13\Cart;
 
 
 use Illuminate\Support\Facades\Log;
+use Ramsey\Uuid\Uuid;
 
 class DatabaseCartStore extends AbstractCartStore
 {
@@ -57,6 +58,7 @@ class DatabaseCartStore extends AbstractCartStore
 
     /**
      * @return void
+     * @throws Exceptions\ClientIdException
      */
     public function forget()
     {
@@ -69,6 +71,21 @@ class DatabaseCartStore extends AbstractCartStore
      * @param $ttl
      */
     public function changeClientId($clientId, array $items, $ttl)
+    {
+        $clientId = "cart::" . $clientId;
+        // pindahin client id user ke tempat yg lain;
+        $this->getModel()->newQuery()->where(['client_id' => $clientId])->update(['client_id' => "cart::". ((string) Uuid::uuid4())]);
+
+        //ganti random client id ke  client id user
+        \Faza13\Cart\Models\Cart::where(['client_id' => $this->getClientId()])->update(['client_id' => $clientId]);
+    }
+
+    /**
+     * @param  string  $clientId
+     * @param  array  $items
+     * @param $ttl
+     */
+    public function getCartByClientId($clientId)
     {
         $clientId = "cart::" . $clientId;
         $this->getModel()->newQuery()->where(['client_id' => $this->getClientId()])->update(['client_id' => $clientId]);
