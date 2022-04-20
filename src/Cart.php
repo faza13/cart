@@ -102,6 +102,32 @@ class Cart
         return $this->remove($cartItem);
     }
 
+    public function updatePackage(CartItem $cartItem, $package_uuid, $quantity)
+    {
+        foreach ($this->items as $item) {
+            if ($item->equals($cartItem)) {
+                if (isset($item->options['packages'])) {
+                    $options = $item->options;
+                    $newPackages = [];
+                    foreach ($options['packages'] as $key => $value) {
+                        if ($value['uuid'] == $package_uuid) {
+                            $value['qty'] = $quantity;
+                        }
+                        array_push($newPackages, $value);
+                    }
+
+                    $options['packages'] = $newPackages;
+
+                    $item->setOption($options);
+                    
+                    $this->event(new CartItemUpdated($this, $item));
+                    return $this;
+                }
+            }
+        }
+    }
+
+
     /**
      * @param  CartItem  $cartItem
      * @return $this

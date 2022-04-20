@@ -87,6 +87,13 @@ class Item implements CartItem
         return $this->quantity;
     }
 
+    public function setOption($options)
+    {
+        $this->options = $options;
+
+        return $this->options;
+    }
+
     public function plus(CartItem $cartItem, $quantity = 1, $setQuantity = false)
     {
         if ($this->equals($cartItem)) {
