@@ -65,7 +65,6 @@ class Cart
      */
     public function add(CartItem $cartItem, $quantity = 1)
     {
-
         foreach ($this->items as $item) {
             if ($item->equals($cartItem)) {
                 $item->plusQuantity($quantity);
@@ -134,8 +133,8 @@ class Cart
                 $flashSale_type = null;
                 $flashSale_id = null;
                 $flashSale_name = null;
-                $price = 0;
-                $weight = 0;
+                $price = $item->price;
+                $weight = $item->weight;
 
                 if (config('mineral.flash_sale')) {
                     $flashSale = $cartItem->product->flashSale;
