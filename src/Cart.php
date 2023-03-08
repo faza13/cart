@@ -127,6 +127,59 @@ class Cart
         }
     }
 
+    public function checkFlashSale(CartItem $cartItem)
+    {
+        foreach ($this->items as $item) {
+            if ($item->equals($cartItem)) {
+                $flashSale_type = null;
+                $flashSale_id = null;
+                $flashSale_name = null;
+                $price = 0;
+                $weight = 0;
+
+                if (config('mineral.flash_sale')) {
+                    $flashSale = $cartItem->product->flashSale;
+                    if (isset($flashSale[0])) {
+                        if ($flashSale[0]->minimum_qty > 0  &&  $item->quantity < $flashSale[0]->minimum_qty) {
+                            $flashSale_type = null;
+                            $flashSale_id = null;
+                            $flashSale_name = null;
+                            $price = $cartItem->price;
+                            $weight = $cartItem->weight;
+
+                        }else{
+                            $flashSale_type = $flashSale[0]->type;
+                            $flashSale_id = $flashSale[0]->id;
+                            $flashSale_name = $flashSale[0]->name;
+
+                            if ($flashSale[0]->type == 'FREE_ONGKIR') {
+                                $weight = 0;
+                            }
+
+                            if ($flashSale[0]->discount_percent) {
+                                $price = ($cartItem->price * (100 - intval((int)$flashSale[0]->discount_percent))/100);
+                            }else{
+                                $price = $cartItem->price - (int)$flashSale[0]->discount_price;
+                            }
+                        }
+                    }
+                }
+
+                $options = $item->options;
+                $options['flash_sale_type'] = $flashSale_type;
+                $options['flash_sale_id'] = $flashSale_id;
+                $options['flash_sale_name'] = $flashSale_name;
+                $item->setOption($options);
+
+                $item->setPrice($price);
+                $item->setWeight($weight);
+
+                $this->event(new CartItemUpdated($this, $item));
+                return $this;
+            }
+        }
+    }
+
 
     /**
      * @param  CartItem  $cartItem

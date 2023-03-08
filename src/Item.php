@@ -116,6 +116,13 @@ class Item implements CartItem
         return $this->getQuantity() * $this->getWeight();
     }
 
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this->price;
+    }
+
     public function getPrice()
     {
         return $this->price;
@@ -124,6 +131,13 @@ class Item implements CartItem
     public function getQuantity()
     {
         return $this->quantity;
+    }
+
+    public function setWeight($weight)
+    {
+        $this->weight = $weight;
+
+        return $this->weight;
     }
 
     public function getWeight()
